@@ -67,14 +67,8 @@ public class Store
                     shoppingCartItems = shoppingCart.getItems();
                     if(shoppingCartItems.size() > 0){
                         System.out.println("");
-                        showReceipt();
-                        try{
-                            PrintStream fileStream = new PrintStream("receipt.txt");
-                            System.setOut(fileStream);
-                            showReceipt();
-                        }catch(FileNotFoundException e){
-                            e.printStackTrace();
-                        }
+                        printReceipt();
+                        saveReceiptToFile("receipt.txt");
                         List<Item> cartItems = customer.shoppingCart.getItems();
                         for (int i = 0; i < cartItems.size(); i++) {
                             customer.removeFromCart(cartItems.get(i));
@@ -164,7 +158,17 @@ public class Store
         } while(cartMenu != -1);
     }
 
-    public void showReceipt(){
+    public void readStoreItemsFromFile(String fileName) throws FileNotFoundException, IOException{
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                storeItems.add(new Item(values[0], Double.parseDouble(values[1])));
+            }
+        }
+    }
+    
+    public void printReceipt(){
         System.out.println("--------------------------------------------------------------");
         System.out.format("%32s","RECEIPT");
         System.out.println("");
@@ -196,22 +200,14 @@ public class Store
         System.out.print(shoppingCart.computeTotalPrice());
         System.out.println("");
     }
-
-    public void readStoreItemsFromFile(String fileName) throws FileNotFoundException, IOException{
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                storeItems.add(new Item(values[0], Double.parseDouble(values[1])));
-            }
-        }
-    }
-    
-    public void printReceipt(){
-        
-    }
     
     public void saveReceiptToFile(String fileName){
-
+        try{
+            PrintStream fileStream = new PrintStream(fileName);
+            System.setOut(fileStream);
+            printReceipt();
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
     }
 }
