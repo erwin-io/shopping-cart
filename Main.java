@@ -8,7 +8,7 @@ public class Main
             Customer customer = new Customer("Erwin");
             Cashier cashier = new Cashier("Erwin", LocalTime.now(), LocalTime.now());
             Store store = new Store(customer, cashier);
-            store.readStoreItemsFromFile("product.csv");
+            store.readStoreItemsFromFile("store-items.csv");
             store.shop();
         }catch (IOException e) {
             e.printStackTrace();
