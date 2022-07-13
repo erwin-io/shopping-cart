@@ -1,2 +1,2 @@
 # shopping-cart
-OOP-Shopping-Cart
+OOP-Shopping-Cart using Java
