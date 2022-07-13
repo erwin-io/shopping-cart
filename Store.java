@@ -72,7 +72,7 @@ public class Store
                         System.out.println("");
                         showReceipt();
                         try{
-                            PrintStream fileStream = new PrintStream("filename.txt");
+                            PrintStream fileStream = new PrintStream("receipt.txt");
                             System.setOut(fileStream);
                             showReceipt();
                         }catch(FileNotFoundException e){
